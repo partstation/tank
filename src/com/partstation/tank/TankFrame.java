@@ -7,8 +7,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
+	//根据面向对向编程思想，此处应该封装
+	/*private int x = 200, y = 200;
+	Dir dir = Dir.DOWN;
+	private static final int SPEED = 10;*/
 	
-	int x = 200, y = 200;
+	Tank mainTank = new Tank(200, 200, Dir.DOWN);
 	
 	public TankFrame() {
 		setSize(800, 600);
@@ -27,13 +31,26 @@ public class TankFrame extends Frame {
 	
 	@Override
 	public void paint(Graphics g) {
-//		System.out.println("paint");
-		g.fillRect(x, y, 50, 50);
-		
+		/*g.fillRect(x, y, 50, 50);
+		switch (dir) {
+			case LEFT:
+				x -= SPEED;
+				break;
+			case UP:
+				y -= SPEED;
+				break;
+			case RIGHT:
+				x += SPEED;
+				break;
+			case DOWN:
+				y += SPEED;
+		}*/
+		mainTank.paint(g);
 	}
 	
 	class MyKeyListener extends KeyAdapter {
 		boolean bL = false, bU = false, bR = false, bD = false;
+		
 		@Override
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
@@ -53,7 +70,8 @@ public class TankFrame extends Frame {
 				default:
 					break;
 			}
-			repaint();
+			setMainTankDir();
+			//repaint();
 			
 		}
 		
@@ -76,6 +94,20 @@ public class TankFrame extends Frame {
 				default:
 					break;
 			}
+			setMainTankDir();
+		}
+		
+		//根据按键状态，确定坦克方向
+		private void setMainTankDir() {
+			/*if (bL) dir = Dir.LEFT;
+			if (bU) dir = Dir.UP;
+			if (bR) dir = Dir.RIGHT;
+			if (bD) dir = Dir.DOWN;*/
+			mainTank.setMoving(true);
+			if (bL) mainTank.setDir(Dir.LEFT);
+			if (bU) mainTank.setDir(Dir.UP);
+			if (bR) mainTank.setDir(Dir.RIGHT);
+			if (bD) mainTank.setDir(Dir.DOWN);
 		}
 	}
 }
